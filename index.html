@@ -1193,6 +1193,7 @@
 
         // Attach the event listener to the document
         document.addEventListener('touchstart', handleTouchStart, false);
+        document.addEventListener('mousedown', handleTouchStart, false);
 
         function updateTimer() {
           if (!frozen) {
