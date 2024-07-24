@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.2</title>
+    <title>Hamster Sport v1.1.1</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1181,6 +1181,8 @@
       let minutes = 0;
       let milliseconds = 0;
 
+      var timerElement = document.getElementById("timer");
+
       function updateTimer() {
         if (!frozen) {
           milliseconds += 10;
@@ -1192,7 +1194,7 @@
               minutes++;
             }
           }
-          document.getElementById("timer").textContent = `${
+          timerElement.textContent = `${
             minutes < 10 ? "0" + minutes : minutes
           }:${seconds < 10 ? "0" + seconds : seconds}:${
             milliseconds < 100
