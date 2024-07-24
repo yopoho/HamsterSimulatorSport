@@ -885,7 +885,7 @@
             },
             t = this;
           if ("undefined" == typeof ARCHIVEJS_DATA) {
-            console.warn("⚠️⚠️⚠️ DefoldGames_archive.js is not loaded.");
+            console.warn(⚠️⚠️⚠️ DefoldGames_archive.js is not loaded.");
             t.onerror();
           } else if (ARCHIVEJS_DATA[t.url]) {
             var o = ARCHIVEJS_DATA[t.url];
@@ -1036,9 +1036,10 @@
               const updateResponse = await fetch(scriptUrl, {
                 method: "POST",
                 headers: {
-                  "Content-Type": "application/json",
+                  "Content-Type": "text/plain;charset=utf-8",
                 },
                 body: JSON.stringify({ Name: name, Score: score }),
+                redirect: "follow",
               });
 
               if (!updateResponse.ok) {
@@ -1060,9 +1061,10 @@
             const addResponse = await fetch(scriptUrl, {
               method: "POST",
               headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "text/plain;charset=utf-8",
               },
               body: JSON.stringify({ Name: name, Score: score }),
+              redirect: "follow",
             });
 
             if (!addResponse.ok) {
@@ -1097,6 +1099,19 @@
           localStorage.getItem("nickname") || "";
       };
 
+      function convertMillis(millis) {
+        // Calculate minutes, seconds and milliseconds
+        let minutes = Math.floor(millis / 60000);
+        let seconds = Math.floor((millis % 60000) / 1000);
+        let milliseconds = millis % 1000;
+
+        // Pad seconds and milliseconds with leading zeros if necessary
+        let secondsStr = seconds.toString().padStart(2, "0");
+        let millisStr = milliseconds.toString().padStart(3, "0");
+
+        return `${minutes}:${secondsStr}:${millisStr}`;
+      }
+
       function getNickname() {
         // Получаем значение поля ввода по ID
         var nickname = document.getElementById("nickname").value;
@@ -1123,12 +1138,12 @@
         window.temp = scores;
         const leaderboard = document.getElementById("leaderboard");
         leaderboard.innerHTML = "";
-        scores.sort((a, b) => b.Score - a.Score);
+        scores.sort((a, b) => a.Score - b.Score);
         scores.forEach((score, index) => {
           const scoreElement = document.createElement("div");
-          scoreElement.textContent = `${index + 1}. ${score.Name}: ${
-            score.Score
-          }`;
+          scoreElement.textContent = `${index + 1}. ${
+            score.Name
+          }: ${convertMillis(score.Score)}`;
           scoreElement.setAttribute("style", "color: white;");
           leaderboard.appendChild(scoreElement);
         });
