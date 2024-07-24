@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.3.6</title>
+    <title>Hamster Sport v1.3.7</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1123,10 +1123,11 @@
         let milliseconds = millis % 1000;
 
         // Pad seconds and milliseconds with leading zeros if necessary
+        let minutesStr = minutes.toString().padStart(2, "0");
         let secondsStr = seconds.toString().padStart(2, "0");
         let millisStr = milliseconds.toString().padStart(3, "0");
 
-        return `${minutes}:${secondsStr}:${millisStr}`;
+        return `${minutesStr}:${secondsStr}:${millisStr}`;
       }
 
       function getNickname() {
@@ -1139,18 +1140,6 @@
 
       var temp = null;
 
-      function convertMillis(millis) {
-        // Calculate minutes, seconds and milliseconds
-        let minutes = Math.floor(millis / 60000);
-        let seconds = Math.floor((millis % 60000) / 1000);
-        let milliseconds = millis % 1000;
-
-        // Pad seconds and milliseconds with leading zeros if necessary
-        let secondsStr = seconds.toString().padStart(2, "0");
-        let millisStr = milliseconds.toString().padStart(3, "0");
-
-        return `${minutes}:${secondsStr}:${millisStr}`;
-      }
       function displayScores(scores) {
         window.temp = scores;
         const leaderboard = document.getElementById("leaderboard");
