@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.3.5</title>
+    <title>Hamster Sport v1.3.6</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -995,7 +995,7 @@
       <p id="timer" style="text-align: center; color: white; font-size: 20px">
         00:00:000
       </p>
-      <div id="leaderboard"></div>
+      <div id="leaderboard" style="margin-left: 8px"></div>
       <div class="buttons-background"></div>
     </div>
     <script>
@@ -1162,7 +1162,10 @@
           scoreElement.textContent = `${index + 1}. ${
             score.Name
           }: ${convertMillis(score.Score)}`;
-          scoreElement.setAttribute("style", "color: white;");
+          scoreElement.setAttribute(
+            "style",
+            "color: white; font-size: 15px; padding-top: 2px;"
+          );
           leaderboard.appendChild(scoreElement);
         });
       }
