@@ -1010,7 +1010,7 @@
       EngineLoader.load("canvas", "DefoldGames");
 
       const scriptUrl =
-        "https://script.google.com/macros/s/AKfycbxJzR0O7Bksa1VDMTJ0MoYtyiQ3P56LpfN_LZxvUW1V_HlUyxMT5cDQR9b7q7nlzz_34w/exec";
+        "https://script.google.com/macros/s/AKfycbwa2uiWYQ8xurMYzK6rpalh8SNMuvY2a1jFspP4HfKKZvZF1bmfJ9eIE5AaQSYThPJO2w/exec";
 
       async function addOrUpdateScore(name, score) {
         try {
@@ -1032,13 +1032,19 @@
           );
 
           if (existingRecord) {
+            console.log("score", score);
+            console.log("existingRecord.Score", existingRecord.Score);
+
             if (score < existingRecord.Score) {
               const updateResponse = await fetch(scriptUrl, {
                 method: "POST",
                 headers: {
                   "Content-Type": "text/plain;charset=utf-8",
                 },
-                body: JSON.stringify({ Name: name, Score: score }),
+                body: JSON.stringify({
+                  Name: name,
+                  Score: score,
+                }),
                 redirect: "follow",
               });
 
@@ -1063,7 +1069,10 @@
               headers: {
                 "Content-Type": "text/plain;charset=utf-8",
               },
-              body: JSON.stringify({ Name: name, Score: score }),
+              body: JSON.stringify({
+                Name: name,
+                Score: score,
+              }),
               redirect: "follow",
             });
 
