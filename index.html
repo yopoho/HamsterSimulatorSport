@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.4.1</title>
+    <title>Hamster Sport v1.4.2</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1151,10 +1151,17 @@
           scoreElement.textContent = `${index + 1}. ${
             score.Name
           }: ${convertMillis(score.Score)}`;
-          scoreElement.setAttribute(
-            "style",
-            "color: white; font-size: 15px; padding-top: 2px;"
-          );
+          if (getNickname() === score.Name) {
+            scoreElement.setAttribute(
+              "style",
+              "color: #efa0a0; font-size: 15px; padding-top: 2px;"
+            );
+          } else {
+            scoreElement.setAttribute(
+              "style",
+              "color: white; font-size: 15px; padding-top: 2px;"
+            );
+          }
           leaderboard.appendChild(scoreElement);
         });
       }
