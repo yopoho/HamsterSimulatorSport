@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.3.1</title>
+    <title>Hamster Sport v1.3.2</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1013,6 +1013,9 @@
         "https://script.google.com/macros/s/AKfycbwa2uiWYQ8xurMYzK6rpalh8SNMuvY2a1jFspP4HfKKZvZF1bmfJ9eIE5AaQSYThPJO2w/exec";
 
       async function addOrUpdateScore(name, score) {
+        if (score == -0) {
+          return;
+        }
         try {
           console.log(
             `Attempting to add or update score for user: ${name} with score: ${score}`
