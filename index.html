@@ -1009,8 +1009,8 @@
       Module.persistentStorage = !1;
       EngineLoader.load("canvas", "DefoldGames");
 
-      const sheetDbUrl =
-        "https://api.sheety.co/e0b6e98e76fd126fb173a820528bb35b/leaderboard/leaderboard";
+      const scriptUrl =
+        "https://script.google.com/macros/s/AKfycbxJzR0O7Bksa1VDMTJ0MoYtyiQ3P56LpfN_LZxvUW1V_HlUyxMT5cDQR9b7q7nlzz_34w/exec";
 
       async function addOrUpdateScore(name, score) {
         try {
@@ -1018,42 +1018,28 @@
             `Attempting to add or update score for user: ${name} with score: ${score}`
           );
 
-          // Проверка существующих записей для данного пользователя
-          const searchResponse = await fetch(sheetDbUrl, {
-            method: "GET",
-          });
-
+          const searchResponse = await fetch(scriptUrl);
           if (!searchResponse.ok) {
             console.error(
-              `Network response was not ok while searching for user: ${name}`
+              `Network response was not ok while fetching existing scores for user: ${name}`
             );
             throw new Error("Network response was not ok");
           }
 
-          const searchData = await searchResponse.json();
-          const existingRecords = searchData.leaderboard.filter(
-            (record) => record.name === name
+          const existingData = await searchResponse.json();
+          const existingRecord = existingData.find(
+            (record) => record.Name === name
           );
-          console.log(`Search response for user ${name}:`, existingRecords);
 
-          if (existingRecords.length > 0) {
-            // Пользователь уже существует, обновляем результат если он лучше
-            const currentRecord = existingRecords[0];
-            console.log(`Existing record for user ${name}:`, currentRecord);
-
-            if (score < currentRecord.score) {
-              const updateResponse = await fetch(
-                `${sheetDbUrl}/${currentRecord.id}`,
-                {
-                  method: "PUT",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    leaderboard: { score: score },
-                  }),
-                }
-              );
+          if (existingRecord) {
+            if (score > existingRecord.Score) {
+              const updateResponse = await fetch(scriptUrl, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ Name: name, Score: score }),
+              });
 
               if (!updateResponse.ok) {
                 const updateErrorText = await updateResponse.text();
@@ -1067,23 +1053,16 @@
               console.log(`Score updated successfully for user: ${name}`);
             } else {
               console.log(
-                `New score (${score}) is not lower than existing score (${currentRecord.score}) for user: ${name}`
+                `New score (${score}) is not higher than existing score (${existingRecord.Score}) for user: ${name}`
               );
             }
           } else {
-            // Пользователь не существует, добавляем новую запись
-            console.log(
-              `No existing record for user ${name}, adding new record`
-            );
-
-            const addResponse = await fetch(sheetDbUrl, {
+            const addResponse = await fetch(scriptUrl, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({
-                leaderboard: { name: name, score: score },
-              }),
+              body: JSON.stringify({ Name: name, Score: score }),
             });
 
             if (!addResponse.ok) {
@@ -1141,17 +1120,16 @@
         return `${minutes}:${secondsStr}:${millisStr}`;
       }
       function displayScores(scores) {
-        console.log("scores!", scores);
-        temp = scores;
+        window.temp = scores;
         const leaderboard = document.getElementById("leaderboard");
         leaderboard.innerHTML = "";
-        scores.sort((a, b) => a.score - b.score); // Сортировка по убыванию
+        scores.sort((a, b) => b.Score - a.Score);
         scores.forEach((score, index) => {
           const scoreElement = document.createElement("div");
-          scoreElement.textContent = `${index + 1}. ${
-            score.name
-          }: ${convertMillis(score.score)}`;
-          scoreElement.setAttribute("style", "color: white;"); // Установка белого цвета текста
+          scoreElement.textContent = `${index + 1}. ${score.Name}: ${
+            score.Score
+          }`;
+          scoreElement.setAttribute("style", "color: white;");
           leaderboard.appendChild(scoreElement);
         });
       }
@@ -1159,10 +1137,7 @@
       async function getScores() {
         try {
           console.log("Fetching scores...");
-          const response = await fetch(sheetDbUrl, {
-            method: "GET",
-          });
-
+          const response = await fetch(scriptUrl);
           if (!response.ok) {
             console.error("Network response was not ok while fetching scores");
             throw new Error("Network response was not ok");
@@ -1170,7 +1145,7 @@
 
           const data = await response.json();
           console.log("Fetched scores:", data);
-          displayScores(data.leaderboard);
+          displayScores(data);
         } catch (error) {
           console.error("Failed to fetch scores:", error);
         }
