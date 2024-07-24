@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.3.3</title>
+    <title>Hamster Sport v1.3.5</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1013,9 +1013,14 @@
         "https://script.google.com/macros/s/AKfycbwa2uiWYQ8xurMYzK6rpalh8SNMuvY2a1jFspP4HfKKZvZF1bmfJ9eIE5AaQSYThPJO2w/exec";
 
       async function addOrUpdateScore(name, score) {
+        console.log("score is", score);
+        console.log("typeof", typeof score);
+        console.log("score === 0", score === 0);
+        console.log("score == 0", score == 0);
         if (score === 0) {
           return;
         }
+        console.log("Proceeding with sending");
         try {
           console.log(
             `Attempting to add or update score for user: ${name} with score: ${score}`
@@ -1151,6 +1156,7 @@
         const leaderboard = document.getElementById("leaderboard");
         leaderboard.innerHTML = "";
         scores.sort((a, b) => a.Score - b.Score);
+        scores = scores.filter((entry) => entry.Score >= 1000);
         scores.forEach((score, index) => {
           const scoreElement = document.createElement("div");
           scoreElement.textContent = `${index + 1}. ${
@@ -1196,9 +1202,9 @@
           const currentTime = performance.now();
           elapsedTime = currentTime - startTime;
 
-          const milliseconds = Math.floor((elapsedTime % 1000) / 10);
-          const seconds = Math.floor((elapsedTime / 1000) % 60);
-          const minutes = Math.floor((elapsedTime / 60000) % 60);
+          milliseconds = Math.floor((elapsedTime % 1000) / 10);
+          seconds = Math.floor((elapsedTime / 1000) % 60);
+          minutes = Math.floor((elapsedTime / 60000) % 60);
 
           timerElement.textContent = `${
             minutes < 10 ? "0" + minutes : minutes
@@ -1264,6 +1270,10 @@
       function OnGameFinished(e) {
         frozen = true;
         cipherE = e;
+        console.log("minutes", minutes);
+        console.log("seconds", minutes);
+        console.log("milliseconds", minutes);
+
         addOrUpdateScore(
           getNickname(),
           minutes * 60 * 1000 + seconds * 1000 + milliseconds
