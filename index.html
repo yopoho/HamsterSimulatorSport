@@ -1190,7 +1190,7 @@
 
       function updateTimer() {
         if (!frozen) {
-          const currentTime = Date.now();
+          const currentTime = performance.now();
           elapsedTime = currentTime - startTime;
 
           const milliseconds = Math.floor((elapsedTime % 1000) / 10);
@@ -1211,7 +1211,7 @@
 
       function startTimer() {
         if (!timerInterval) {
-          startTime = Date.now() - elapsedTime;
+          startTime = performance.now() - elapsedTime;
           timerInterval = setInterval(updateTimer, 1);
         }
       }
