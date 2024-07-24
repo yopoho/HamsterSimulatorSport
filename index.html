@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.4.2</title>
+    <title>Hamster Sport v1.4.3</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1109,11 +1109,11 @@
           .addEventListener("input", (event) => {
             console.log("Input event triggered: ", event);
 
-            localStorage.setItem("nickname", event.target.value);
+            localStorage.setItem("nickname", event.target.value?.trim());
           });
 
         document.getElementById("nickname").value =
-          localStorage.getItem("nickname") || "";
+          (localStorage.getItem("nickname")?.trim()) || "";
       };
 
       function convertMillis(millis) {
@@ -1135,7 +1135,7 @@
         var nickname = document.getElementById("nickname").value;
         // Используем тернарный оператор для проверки пустого значения
         nickname = nickname.trim() === "" ? "Unnamed" : nickname;
-        return nickname;
+        return nickname.trim();
       }
 
       var temp = null;
@@ -1154,12 +1154,12 @@
           if (getNickname() === score.Name) {
             scoreElement.setAttribute(
               "style",
-              "color: #efa0a0; font-size: 15px; padding-top: 2px;"
+              "color: #efa0a0; font-weight: 600; font-size: 15px; padding-top: 2px;"
             );
           } else {
             scoreElement.setAttribute(
               "style",
-              "color: white; font-size: 15px; padding-top: 2px;"
+              "color: white; font-weight: 600; font-size: 15px; padding-top: 2px;"
             );
           }
           leaderboard.appendChild(scoreElement);
