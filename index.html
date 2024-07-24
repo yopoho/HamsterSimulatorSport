@@ -1149,8 +1149,7 @@
         scores.forEach((score, index) => {
           const scoreElement = document.createElement("div");
           scoreElement.innerHTML = `${index + 1}. <span style="font-weight: 600;">${score.Name}</span>: ${convertMillis(score.Score)}`;
-          let fontSize = index === 0 ? 16 : 15;
-          let fontSize = index === 0 ? 16 : 15;
+          var fontSize = index === 0 ? 16 : 15;
           if (index === 0) {
             fontSize == 17;
           }
