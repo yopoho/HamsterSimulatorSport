@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.4.3</title>
+    <title>Hamster Sport v1.4.4</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1148,13 +1148,11 @@
         scores = scores.filter((entry) => entry.Score >= 1000);
         scores.forEach((score, index) => {
           const scoreElement = document.createElement("div");
-          scoreElement.textContent = `${index + 1}. ${
-            score.Name
-          }: ${convertMillis(score.Score)}`;
+          scoreElement.innerHTML = `${index + 1}. <span style="font-weight: 600;">${score.Name}</span>: ${convertMillis(score.Score)}`;
           if (getNickname() === score.Name) {
             scoreElement.setAttribute(
               "style",
-              "color: #efa0a0; font-size: 15px; padding-top: 2px;"
+              "color: #efa0a0; font-size: 17px; padding-top: 2px;"
             );
           } else {
             scoreElement.setAttribute(
