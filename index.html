@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.3.7</title>
+    <title>Hamster Sport v1.4</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1177,7 +1177,6 @@
       }
       getScores();
 
-      let timer;
       let seconds = 0;
       let minutes = 0;
       let milliseconds = 0;
@@ -1218,13 +1217,12 @@
       }
 
       function resetTimer() {
-        clearInterval(timer);
-        timer = null;
+        clearInterval(timerInterval);
+        timerInterval = null;
         seconds = 0;
         minutes = 0;
         milliseconds = 0;
-        clearInterval(timerInterval);
-        timerInterval = undefined;
+        elapsedTime = null;
         document.getElementById("timer").textContent = "00:00:000";
       }
 
