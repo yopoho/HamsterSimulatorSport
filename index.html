@@ -1149,15 +1149,20 @@
         scores.forEach((score, index) => {
           const scoreElement = document.createElement("div");
           scoreElement.innerHTML = `${index + 1}. <span style="font-weight: 600;">${score.Name}</span>: ${convertMillis(score.Score)}`;
+          let fontSize = index === 0 ? 16 : 15;
+          let fontSize = index === 0 ? 16 : 15;
+          if (index === 0) {
+            fontSize == 17;
+          }
           if (getNickname() === score.Name) {
             scoreElement.setAttribute(
               "style",
-              "color: #efa0a0; font-size: 17px; padding-top: 2px;"
+              `color: #efa0a0; font-size: ${fontSize}px; padding-top: 2px;`
             );
           } else {
             scoreElement.setAttribute(
               "style",
-              "color: white; font-size: 15px; padding-top: 2px;"
+              `color: white; font-size: ${fontSize}px; padding-top: 2px;`
             );
           }
           leaderboard.appendChild(scoreElement);
