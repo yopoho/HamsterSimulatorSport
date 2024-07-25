@@ -1010,17 +1010,12 @@
       EngineLoader.load("canvas", "DefoldGames");
 
       const scriptUrl =
-        "https://script.google.com/macros/s/AKfycbwa2uiWYQ8xurMYzK6rpalh8SNMuvY2a1jFspP4HfKKZvZF1bmfJ9eIE5AaQSYThPJO2w/exec";
+        "https://script.google.com/macros/s/AKfycbwPdwTlR9AFuF1oE0YDazvSFXvRFh1vwpVSi_0w8MwRzhRmRjkgAUj30naPdeYxfLf4aw/exec";
 
       async function addOrUpdateScore(name, score) {
-        console.log("score is", score);
-        console.log("typeof", typeof score);
-        console.log("score === 0", score === 0);
-        console.log("score == 0", score == 0);
         if (score === 0) {
           return;
         }
-        console.log("Proceeding with sending");
         try {
           console.log(
             `Attempting to add or update score for user: ${name} with score: ${score}`
@@ -1052,6 +1047,7 @@
                 body: JSON.stringify({
                   Name: name,
                   Score: score,
+                  touchEvents: touchEvents,
                 }),
                 redirect: "follow",
               });
@@ -1080,6 +1076,7 @@
               body: JSON.stringify({
                 Name: name,
                 Score: score,
+                touchEvents: JSON.stringify(touchEvents),
               }),
               redirect: "follow",
             });
@@ -1113,7 +1110,7 @@
           });
 
         document.getElementById("nickname").value =
-          (localStorage.getItem("nickname")?.trim()) || "";
+          localStorage.getItem("nickname")?.trim() || "";
       };
 
       function convertMillis(millis) {
@@ -1148,7 +1145,11 @@
         scores = scores.filter((entry) => entry.Score >= 1000);
         scores.forEach((score, index) => {
           const scoreElement = document.createElement("div");
-          scoreElement.innerHTML = `${index + 1}. <span style="font-weight: 600;">${score.Name}</span>: ${convertMillis(score.Score)}`;
+          scoreElement.innerHTML = `${
+            index + 1
+          }. <span style="font-weight: 600;">${
+            score.Name
+          }</span>: ${convertMillis(score.Score)}`;
           var fontSize = index === 0 ? 17 : 15;
           if (getNickname() === score.Name) {
             fontSize = Math.max(fontSize, 16);
@@ -1216,10 +1217,46 @@
         }
       }
 
+      let isTouching = false;
+      let touchStart = null;
+      let touchEvents = [];
+
+      // Function to handle touch start
+      canvas.addEventListener("touchstart", (event) => {
+        const touch = event.touches[0];
+        const x = touch.clientX - canvas.offsetLeft;
+        const y = touch.clientY - canvas.offsetTop;
+
+        const currentTime = performance.now();
+        elapsedTime = currentTime - startTime;
+
+        touchStart = { x, y, time: elapsedTime };
+        isTouching = true;
+      });
+
+      // Function to handle touch end
+      canvas.addEventListener("touchend", (event) => {
+        if (!isTouching) return;
+
+        const touch = event.changedTouches[0];
+        const x = touch.clientX - canvas.offsetLeft;
+        const y = touch.clientY - canvas.offsetTop;
+        const currentTime = performance.now();
+        elapsedTime = currentTime - startTime;
+
+        const touchEnd = { x, y, time: elapsedTime };
+        touchEvents.push({ start: touchStart, end: touchEnd });
+
+        // Reset state
+        isTouching = false;
+        touchStart = null; // Log the touch events
+      });
+
       function startTimer() {
         if (!timerInterval) {
           startTime = performance.now() - elapsedTime;
           timerInterval = setInterval(updateTimer, 1);
+          touchEvents = [];
         }
       }
 
@@ -1272,9 +1309,6 @@
       function OnGameFinished(e) {
         frozen = true;
         cipherE = e;
-        console.log("minutes", minutes);
-        console.log("seconds", minutes);
-        console.log("milliseconds", minutes);
 
         addOrUpdateScore(
           getNickname(),
