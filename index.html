@@ -1016,6 +1016,7 @@
         if (score === 0) {
           return;
         }
+        let touchEventsCopy = touchEvents.slice();
         try {
           console.log(
             `Attempting to add or update score for user: ${name} with score: ${score}`
@@ -1047,7 +1048,7 @@
                 body: JSON.stringify({
                   Name: name,
                   Score: score,
-                  touchEvents: touchEvents,
+                  touchEvents: JSON.stringify(touchEventsCopy),
                 }),
                 redirect: "follow",
               });
@@ -1076,7 +1077,7 @@
               body: JSON.stringify({
                 Name: name,
                 Score: score,
-                touchEvents: JSON.stringify(touchEvents),
+                touchEvents: JSON.stringify(touchEventsCopy),
               }),
               redirect: "follow",
             });
@@ -1177,7 +1178,6 @@
           }
 
           const data = await response.json();
-          console.log("Fetched scores:", data);
           displayScores(data);
         } catch (error) {
           console.error("Failed to fetch scores:", error);
@@ -1221,8 +1221,7 @@
       let touchStart = null;
       let touchEvents = [];
 
-      // Function to handle touch start
-      canvas.addEventListener("touchstart", (event) => {
+      function touchStartAction() {
         const touch = event.touches[0];
         const x = touch.clientX - canvas.offsetLeft;
         const y = touch.clientY - canvas.offsetTop;
@@ -1232,10 +1231,9 @@
 
         touchStart = { x, y, time: elapsedTime };
         isTouching = true;
-      });
+      }
 
-      // Function to handle touch end
-      canvas.addEventListener("touchend", (event) => {
+      function touchEndAction() {
         if (!isTouching) return;
 
         const touch = event.changedTouches[0];
@@ -1247,9 +1245,57 @@
         const touchEnd = { x, y, time: elapsedTime };
         touchEvents.push({ start: touchStart, end: touchEnd });
 
-        // Reset state
+        resetTouches();
+      }
+
+      function resetTouches() {
         isTouching = false;
-        touchStart = null; // Log the touch events
+        touchStart = null;
+      }
+
+      canvas.addEventListener("mousedown", (event) => {
+        if (event.button === 0) {
+          // Only handle left mouse button
+          const x = event.clientX - canvas.offsetLeft;
+          const y = event.clientY - canvas.offsetTop;
+          const currentTime = performance.now();
+          elapsedTime = currentTime - startTime;
+          touchStart = { x, y, time: elapsedTime };
+          isTouching = true;
+        }
+      });
+
+      canvas.addEventListener("mouseup", (event) => {
+        if (event.button === 0 && isTouching) {
+          // Only handle left mouse button and ensure touch start happened
+          const x = event.clientX - canvas.offsetLeft;
+          const y = event.clientY - canvas.offsetTop;
+
+          const currentTime = performance.now();
+          elapsedTime = currentTime - startTime;
+          const touchEnd = { x, y, time: elapsedTime };
+
+          if (touchStart.x === touchEnd.x && touchStart.y === touchEnd.y) {
+            // It's a single click
+            console.log("Single click detected:", {
+              start: touchStart,
+              end: touchEnd,
+            });
+          }
+          touchEvents.push({ startClick: touchStart, endClick: touchEnd });
+
+          resetTouches();
+        }
+      });
+
+      // Function to handle touch start
+      canvas.addEventListener("touchstart", (event) => {
+        touchStartAction();
+      });
+
+      // Function to handle touch end
+      canvas.addEventListener("touchend", (event) => {
+        touchEndAction();
       });
 
       function startTimer() {
@@ -1309,6 +1355,7 @@
       function OnGameFinished(e) {
         frozen = true;
         cipherE = e;
+        resetTouches();
 
         addOrUpdateScore(
           getNickname(),
