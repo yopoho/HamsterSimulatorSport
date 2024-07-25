@@ -1149,11 +1149,9 @@
         scores.forEach((score, index) => {
           const scoreElement = document.createElement("div");
           scoreElement.innerHTML = `${index + 1}. <span style="font-weight: 600;">${score.Name}</span>: ${convertMillis(score.Score)}`;
-          var fontSize = index === 0 ? 16 : 15;
-          if (index === 0) {
-            fontSize == 17;
-          }
+          var fontSize = index === 0 ? 17 : 15;
           if (getNickname() === score.Name) {
+            Math.max(fontSize, 16);
             scoreElement.setAttribute(
               "style",
               `color: #efa0a0; font-size: ${fontSize}px; padding-top: 2px;`
