@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.4.5</title>
+    <title>Hamster Sport v1.4.6</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1223,6 +1223,8 @@
         }
       }
 
+      setInterval(getScores, 5000);
+
       function resetTimer() {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -1288,9 +1290,6 @@
         setTimeout(() => {
           getScores();
         }, 3000);
-        setTimeout(() => {
-          getScores();
-        }, 5000);
         //parent.postMessage(
         //JSON.stringify({
         //method: "OnGameFinished",
