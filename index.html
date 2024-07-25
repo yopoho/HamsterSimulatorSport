@@ -1151,7 +1151,7 @@
           scoreElement.innerHTML = `${index + 1}. <span style="font-weight: 600;">${score.Name}</span>: ${convertMillis(score.Score)}`;
           var fontSize = index === 0 ? 17 : 15;
           if (getNickname() === score.Name) {
-            Math.max(fontSize, 16);
+            fontSize = Math.max(fontSize, 16);
             scoreElement.setAttribute(
               "style",
               `color: #efa0a0; font-size: ${fontSize}px; padding-top: 2px;`
