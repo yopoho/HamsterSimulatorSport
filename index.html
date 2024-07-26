@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport v1.4.7</title>
+    <title>Hamster Sport v1.4.8</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1107,11 +1107,11 @@
           .addEventListener("input", (event) => {
             console.log("Input event triggered: ", event);
 
-            localStorage.setItem("nickname", event.target.value?.trim());
+            localStorage.setItem("nickname", cleanString(event.target.value)?.trim());
           });
 
         document.getElementById("nickname").value =
-          localStorage.getItem("nickname")?.trim() || "";
+          cleanString(localStorage.getItem("nickname"))?.trim() || "";
       };
 
       function convertMillis(millis) {
@@ -1133,10 +1133,14 @@
         var nickname = document.getElementById("nickname").value;
         // Используем тернарный оператор для проверки пустого значения
         nickname = nickname.trim() === "" ? "Unnamed" : nickname;
-        return nickname.trim();
+        return cleanString(nickname.trim());
       }
 
       var temp = null;
+
+      function cleanString(input) {
+        return input.replace(/[^A-Za-z0-9А-Яа-я ?!_.@]/g, '');
+      }
 
       function displayScores(scores) {
         window.temp = scores;
@@ -1149,10 +1153,10 @@
           scoreElement.innerHTML = `${
             index + 1
           }. <span style="font-weight: 600;">${
-            score.Name
+            cleanString(score.Name)
           }</span>: ${convertMillis(score.Score)}`;
           var fontSize = index === 0 ? 17 : 15;
-          if (getNickname() === score.Name) {
+          if (getNickname() === cleanString(score.Name)) {
             fontSize = Math.max(fontSize, 16);
             scoreElement.setAttribute(
               "style",
