@@ -1156,7 +1156,7 @@
             cleanString(score.Name).trim();
           }</span>: ${convertMillis(score.Score)}`;
           var fontSize = index === 0 ? 17 : 15;
-          if (getNickname() === cleanString(score.Name)) {
+          if (getNickname() === cleanString(score.Name).trim()) {
             fontSize = Math.max(fontSize, 16);
             scoreElement.setAttribute(
               "style",
