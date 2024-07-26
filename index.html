@@ -1153,7 +1153,7 @@
           scoreElement.innerHTML = `${
             index + 1
           }. <span style="font-weight: 600;">${
-            cleanString(score.Name)
+            cleanString(score.Name).trim();
           }</span>: ${convertMillis(score.Score)}`;
           var fontSize = index === 0 ? 17 : 15;
           if (getNickname() === cleanString(score.Name)) {
