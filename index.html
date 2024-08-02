@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport 01.08 v1.5.0</title>
+    <title>Hamster Sport 01.08 v1.5.1</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1109,9 +1109,6 @@
 
             localStorage.setItem("nickname", cleanString(event.target.value)?.trim());
           });
-
-        document.getElementById("nickname").value =
-          cleanString(localStorage.getItem("nickname"))?.trim() || "";
       };
 
       function convertMillis(millis) {
@@ -1150,6 +1147,8 @@
       var emojis = "";
       (async () => {
             emojis = await loadEmojis()
+            document.getElementById("nickname").value =
+            cleanString(localStorage.getItem("nickname"))?.trim() || "";
         })();
 
       function cleanString(input) {
