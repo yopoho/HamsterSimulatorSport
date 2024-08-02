@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport 01.08 v1.4.9</title>
+    <title>Hamster Sport 01.08 v1.5.0</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1146,8 +1146,11 @@
                 return '';
             }
         }
+
       var emojis = "";
-      emojis = await loadEmojis()
+      (async () => {
+            emojis = await loadEmojis()
+        })();
 
       function cleanString(input) {
             const allowedChars = "A-Za-zА-Яа-я0-9 _@";
