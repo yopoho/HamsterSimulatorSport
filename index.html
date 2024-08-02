@@ -8,7 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Hamster Sport 01.08 v1.4.8</title>
+    <title>Hamster Sport 01.08 v1.4.9</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1136,14 +1136,11 @@
         return cleanString(nickname.trim());
       }
 
-      var temp = null;
-
       function cleanString(input) {
         return input.replace(/[^A-Za-z0-9А-Яа-я ?!_.@]/g, '');
       }
 
       function displayScores(scores) {
-        window.temp = scores;
         const leaderboard = document.getElementById("leaderboard");
         leaderboard.innerHTML = "";
         scores.sort((a, b) => a.Score - b.Score);
