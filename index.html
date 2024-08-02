@@ -1136,8 +1136,23 @@
         return cleanString(nickname.trim());
       }
 
+      async function loadEmojis() {
+            try {
+                const response = await fetch('all5557emojis.txt');
+                const emojiText = await response.text();
+                return emojiText.split('\n').join('');
+            } catch (error) {
+                console.error('Error loading emojis:', error);
+                return '';
+            }
+        }
+      var emojis = "";
+      emojis = await loadEmojis()
+
       function cleanString(input) {
-        return input.replace(/[^A-Za-z0-9А-Яа-я ?!_.@]/g, '');
+            const allowedChars = "A-Za-zА-Яа-я0-9 _@";
+            const regex = new RegExp(`[^${allowedChars}${emojis}]`, 'g');
+            return input.replace(regex, '');
       }
 
       function displayScores(scores) {
