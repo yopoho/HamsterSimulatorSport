@@ -1107,7 +1107,10 @@
           .addEventListener("input", (event) => {
             console.log("Input event triggered: ", event);
 
-            localStorage.setItem("nickname", cleanString(event.target.value)?.trim());
+            localStorage.setItem(
+              "nickname",
+              cleanString(event.target.value)?.trim()
+            );
           });
       };
 
@@ -1134,27 +1137,49 @@
       }
 
       async function loadEmojis() {
-            try {
-                const response = await fetch('all5557emojis.txt');
-                const emojiText = await response.text();
-                return emojiText.split('\n').join('');
-            } catch (error) {
-                console.error('Error loading emojis:', error);
-                return '';
-            }
+        try {
+          const response = await fetch("all5557emojis.txt");
+          const emojiText = await response.text();
+          return emojiText.split("\n").join("");
+        } catch (error) {
+          console.error("Error loading emojis:", error);
+          return "";
         }
+      }
 
       var emojis = "";
       (async () => {
-            emojis = await loadEmojis()
-            document.getElementById("nickname").value =
-            cleanString(localStorage.getItem("nickname"))?.trim() || "";
-        })();
+        emojis = await loadEmojis();
+        document.getElementById("nickname").value =
+          cleanString(localStorage.getItem("nickname"))?.trim() || "";
+      })();
+
+      let levelConfig =
+        "- - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -";
+      let startE = null;
+
+      async function loadLevelConfig() {
+        try {
+          const response = await fetch("level-config.txt");
+          const text = await response.text();
+          console.log("level-config.txt ", text);
+          return text;
+        } catch (error) {
+          console.error("Error loading config:", error);
+          return "- - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -";
+        }
+      }
+
+      (async () => {
+        levelConfig = await loadLevelConfig();
+        this.levelConfig = levelConfig;
+        onSandboxMessage(startE);
+      })();
 
       function cleanString(input) {
-            const allowedChars = "A-Za-zА-Яа-я0-9 _@";
-            const regex = new RegExp(`[^${allowedChars}${emojis}]`, 'g');
-            return input.replace(regex, '');
+        const allowedChars = "A-Za-zА-Яа-я0-9 _@";
+        const regex = new RegExp(`[^${allowedChars}${emojis}]`, "g");
+        return input.replace(regex, "");
       }
 
       function displayScores(scores) {
@@ -1166,9 +1191,9 @@
           const scoreElement = document.createElement("div");
           scoreElement.innerHTML = `${
             index + 1
-          }. <span style="font-weight: 600;">${
-            cleanString(score.Name).trim()
-          }</span>: ${convertMillis(score.Score)}`;
+          }. <span style="font-weight: 600;">${cleanString(
+            score.Name
+          ).trim()}</span>: ${convertMillis(score.Score)}`;
           var fontSize = index === 0 ? 17 : 15;
           if (getNickname() === cleanString(score.Name).trim()) {
             fontSize = Math.max(fontSize, 16);
@@ -1357,6 +1382,7 @@
       document.addEventListener("click", handleTouchStart, false);
 
       function onSandboxMessage(e) {
+        this.startE = e;
         if (!frozen) {
           resetTimer();
           startTimer();
@@ -1364,8 +1390,7 @@
 
         const a = {
           method: "StartGame",
-          level:
-            '- a b b c c.- a d d d f.- a 0 0 e f.z s s - e f.z - - h g g.- v v h - -',
+          level: levelConfig,
           number: 0,
         };
         a && "StartGame" === a.method && JsToDef.send("__StartGame", a);
