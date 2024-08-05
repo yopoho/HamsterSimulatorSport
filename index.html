@@ -8,10 +8,7 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui,shrink-to-fit=no"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>Hamster Sport v1.5.2</title>
+    <title>Hamster Sport 04.08 v1.5.2</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1173,10 +1170,14 @@
         }
       }
 
+      let gameStarted = false;
+
       (async () => {
         levelConfig = await loadLevelConfig();
         this.levelConfig = levelConfig;
-        onSandboxMessage(startE);
+        if (gameStarted) {
+          onSandboxMessage(startE);
+        }
       })();
 
       function cleanString(input) {
@@ -1385,6 +1386,7 @@
       document.addEventListener("click", handleTouchStart, false);
 
       function onSandboxMessage(e) {
+        gameStarted = true;
         this.startE = e;
         if (!frozen) {
           resetTimer();
@@ -1399,6 +1401,10 @@
         a && "StartGame" === a.method && JsToDef.send("__StartGame", a);
       }
       function OnGameFinished(e) {
+        (async () => {
+          levelConfig = await loadLevelConfig();
+          this.levelConfig = levelConfig;
+        })();
         frozen = true;
         cipherE = e;
         resetTouches();
