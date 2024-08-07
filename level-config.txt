@@ -1,1 +1,1 @@
-a - b b - -.a - c - d -.0 0 c e d -.h h h e d f.- x g g g f.- x - - - -
+- a b b b -.- a c d e e.0 0 c d - f.- h g g g f.- h z - s s.x x z - - -
