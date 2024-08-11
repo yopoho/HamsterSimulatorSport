@@ -1184,26 +1184,26 @@
       })();
 
       let levelConfig =
-        "- - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -";
+        "a - - d d -.a c c - e f.b - 0 0 e f.b g g - e -.- - h z z s.x x h - - s";
       let startE = null;
 
-      async function loadLevelConfig() {
-        try {
-          const response = await fetch("level-config.txt");
-          const text = await response.text();
-          console.log("level-config.txt ", text);
-          return text;
-        } catch (error) {
-          console.error("Error loading config:", error);
-          return "- - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -";
-        }
-      }
+      //async function loadLevelConfig() {
+      //  try {
+       //   const response = await fetch("level-config.txt");
+         // const text = await response.text();
+         // console.log("level-config.txt ", text);
+         // return text;
+        //} catch (error) {
+         // console.error("Error loading config:", error);
+          //return "- - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -. - - - - - -";
+        //}
+      //}
 
       let gameStarted = false;
 
       (async () => {
-        levelConfig = await loadLevelConfig();
-        this.levelConfig = levelConfig;
+        ///levelConfig = await loadLevelConfig();
+        //this.levelConfig = levelConfig;
         if (gameStarted) {
           onSandboxMessage(startE);
         }
