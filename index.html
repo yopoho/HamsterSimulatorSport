@@ -1210,10 +1210,10 @@
       })();
 
       function cleanString(input) {
-        const allowedChars = "A-Za-zА-Яа-я0-9 _@";
-        const regex = new RegExp(`[^${allowedChars}${emojis}]`, "g");
-        return input.replace(regex, "");
-      }
+            const allowedChars = "A-Za-zА-Яа-яЁёЄєЇї0-9 _@";
+    const regex = new RegExp(`[^${allowedChars}]`, "g");
+    return input.replace(regex, "");
+}
 
       function displayScores(scores) {
         const leaderboard = document.getElementById("leaderboard");
