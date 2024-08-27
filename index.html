@@ -11,7 +11,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Hamster Sport 26.08</title>
+    <title>Hamster Sport 27.08</title>
     <style type="text/css">
       body {
         position: absolute;
@@ -1210,7 +1210,7 @@
       })();
 
       function cleanString(input) {
-        const allowedChars = "A-Za-zА-Яа-я0-9 Ёё_@";
+        const allowedChars = "A-Za-zА-Яа-я0-9 _@";
         const regex = new RegExp(`[^${allowedChars}${emojis}]`, "g");
         return input.replace(regex, "");
       }
