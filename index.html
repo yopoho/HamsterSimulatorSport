@@ -945,6 +945,16 @@
     </script>
   </head>
   <body>
+      <img src="shrink.jpeg" alt="Shrink Icon" style="
+      width: 48px;
+      height: 48px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      cursor: pointer;
+  " onclick="adjustMargins()">
+
     <div
       id="app-container"
       class="canvas-app-container"
@@ -1208,6 +1218,20 @@
           onSandboxMessage(startE);
         }
       })();
+
+      function adjustMargins() {
+      const container = document.getElementById('canvas-container');
+      if (!container) return;
+
+      const computedStyle = getComputedStyle(container);
+      const currentMarginLeft = parseInt(computedStyle.marginLeft, 10) || 0;
+      const currentMarginRight = parseInt(computedStyle.marginRight, 10) || 0;
+
+      const newMargin = (currentMarginLeft + 4) % 28;
+
+      container.style.marginLeft = `${newMargin}px`;
+      container.style.marginRight = `${newMargin}px`;
+    }
 
       function cleanString(input) {
         const allowedChars = "A-Za-zА-Яа-я0-9 ЁёІі_@";
