@@ -1210,7 +1210,7 @@
       })();
 
       function cleanString(input) {
-        const allowedChars = "A-Za-zА-Яа-я0-9 _@";
+        const allowedChars = "A-Za-zА-Яа-я0-9 ЁёІі_@";
         const regex = new RegExp(`[^${allowedChars}${emojis}]`, "g");
         return input.replace(regex, "");
       }
