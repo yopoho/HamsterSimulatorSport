@@ -151,7 +151,7 @@ const telegram = window.Telegram.WebApp;
 if (telegram) {
   // Telegram.WebApp is available, proceed with Telegram-specific code
   const initDataUnsafe = telegram.initDataUnsafe;
-  console.log('User ID:', initDataUnsafe.user.id);
+  console.log('initDataUnsafe:', initDataUnsafe);
 } else {
   // Telegram.WebApp is not available, handle accordingly
   console.error('Telegram.WebApp is not available');
