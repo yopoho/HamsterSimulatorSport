@@ -146,12 +146,11 @@
     <script>
       // Access Telegram WebApp interface
 const telegram = window.Telegram.WebApp;
-window.mytelegram = telegram;
+console.log("mytelegram: ", telegram);
 // Check if Telegram.WebApp is available
 if (telegram) {
   // Telegram.WebApp is available, proceed with Telegram-specific code
-  const initDataUnsafe = telegram.initDataUnsafe;
-  console.log('initDataUnsafe:', initDataUnsafe);
+  console.log('initDataUnsafe JSON:', JSON.stringify(telegram.initDataUnsafe));
 } else {
   // Telegram.WebApp is not available, handle accordingly
   console.error('Telegram.WebApp is not available');
