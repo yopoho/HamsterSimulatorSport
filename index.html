@@ -143,6 +143,19 @@
       }
     </style>
     <script>
+      // Access Telegram WebApp interface
+const telegram = window.Telegram.WebApp;
+
+// Check if Telegram.WebApp is available
+if (telegram) {
+  // Telegram.WebApp is available, proceed with Telegram-specific code
+  const initDataUnsafe = telegram.initDataUnsafe;
+  console.log('User ID:', initDataUnsafe.user.id);
+} else {
+  // Telegram.WebApp is not available, handle accordingly
+  console.error('Telegram.WebApp is not available');
+}
+
       !(function (r) {
         "undefined" != typeof module && "object" == typeof exports
           ? (module.exports = r())
